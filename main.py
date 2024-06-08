@@ -62,15 +62,34 @@ def draw_layout(thermopar_numbers):
     ax.set_theta_offset(np.pi / 2)
     ax.set_theta_direction(-1)
 
+    # Добавляем линии для форсунок
+    for angle in angles:
+        ax.plot([angle, angle], [0, 1], color='grey', linestyle='--', linewidth=0.5)
+
     # Радиус для термопар и форсунок
     radius = 1.0
     for angle, label in zip(angles, thermopar_numbers):
         ax.text(angle, radius, f'TP{label}', horizontalalignment='center', verticalalignment='center')
 
+    # Добавляем круги
+    ax.plot(angles, [radius] * len(angles), 'o', color='grey')
+
+    # Устанавливаем угловые метки
+    ax.set_xticks(np.linspace(0, 2 * np.pi, 8, endpoint=False))
+    ax.set_xticklabels(['0°', '45°', '90°', '135°', '180°', '225°', '270°', '315°'])
+
+    # Устанавливаем радиальные метки
+    ax.set_yticks([])
     ax.set_ylim(0, 1.1)
-    ax.set_yticklabels([])
-    ax.set_xticklabels([])
     ax.set_title('Расположение термопар и форсунок', va='bottom')
+
+    # Добавляем форсунки
+    num_sprays = 8
+    spray_angles = np.linspace(0, 2 * np.pi, num_sprays, endpoint=False).tolist()
+    spray_radius = 0.9
+    for angle in spray_angles:
+        ax.text(angle, spray_radius, 'F', horizontalalignment='center', verticalalignment='center', color='red')
+
     plt.show()
 
 
